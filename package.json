@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:report" : "jest --outputFile=test-report.json --json"
   },
   "keywords": [],
   "author": "",
