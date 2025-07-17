@@ -1,5 +1,5 @@
 const { Sweet, sweets } = require('../model/sweet');
-const { addSweet,deleteSweet,getAllSweets,updateSweet } = require('../controller/sweetshop');
+const { addSweet,deleteSweet,getAllSweets,updateSweet,searchSweets } = require('../controller/sweetshop');
 
 beforeEach(() => sweets.length = 0); 
 
@@ -76,7 +76,6 @@ test('updateSweet() should throw error for non-existent sweet', () => {
 
 // searching sweet by name, catagory or price range
 
-const { searchSweets } = require('../controller/sweetshop');
 
 test('searchSweets() should return sweets matching name', () => {
   addSweet({ id: 1, name: 'Ladoo', category: 'Round', price: 30, quantity: 10 });

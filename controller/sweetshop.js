@@ -38,12 +38,28 @@ function updateSweet(id, newData) {
   return sweet;
 }
 
+
+function searchSweets({ name, category, minPrice, maxPrice }) {
+  return sweets.filter(sweet => {
+    const matchName = name ? sweet.name.toLowerCase().includes(name.toLowerCase()) : true;
+    const matchCategory = category ? sweet.category.toLowerCase() === category.toLowerCase() : true;
+    const matchMinPrice = minPrice !== undefined ? sweet.price >= minPrice : true;
+    const matchMaxPrice = maxPrice !== undefined ? sweet.price <= maxPrice : true;
+
+    return matchName && matchCategory && matchMinPrice && matchMaxPrice;
+  });
+}
+
 module.exports = {
   addSweet,
   deleteSweet,
   getAllSweets,
-  updateSweet
+  updateSweet,
+  searchSweets
 };
+
+
+
 
 
 
