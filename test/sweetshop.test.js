@@ -1,5 +1,5 @@
 const { Sweet, sweets } = require('../model/sweet');
-const { addSweet,deleteSweet,getAllSweets,updateSweet,searchSweets } = require('../controller/sweetshop');
+const { addSweet,deleteSweet,getAllSweets,updateSweet,searchSweets ,purchaseSweet} = require('../controller/sweetshop');
 
 beforeEach(() => sweets.length = 0); 
 
@@ -95,4 +95,24 @@ test('searchSweets() should return sweets matching category', () => {
 test('searchSweets() should return sweets in price range', () => {
   const result = searchSweets({ minPrice: 30, maxPrice: 35 });
   expect(result.every(s => s.price >= 30 && s.price <= 35)).toBe(true);
+});
+
+
+
+
+test('purchaseSweet() should reduce quantity of sweet', () => {
+  addSweet({ id: 10, name: 'Barfi', category: 'Milk-Based', price: 40, quantity: 10 });
+  const updated = purchaseSweet(10, 3);
+
+  expect(updated.quantity).toBe(7);
+});
+
+test('purchaseSweet() should throw error if sweet not found', () => {
+  expect(() => purchaseSweet(99, 1)).toThrow('Sweet with ID 99 not found');
+});
+
+test('purchaseSweet() should throw error if insufficient stock', () => {
+  addSweet({ id: 11, name: 'Halwa', category: 'Hot', price: 25, quantity: 2 });
+
+  expect(() => purchaseSweet(11, 5)).toThrow('Only 2 Halwa available in stock');
 });
