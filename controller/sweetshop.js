@@ -50,12 +50,29 @@ function searchSweets({ name, category, minPrice, maxPrice }) {
   });
 }
 
+function purchaseSweet(id, quantity) {
+  const sweet = sweets.find(s => s.id === id);
+
+  if (!sweet) {
+    throw new Error(`Sweet with ID ${id} not found`);
+  }
+
+  if (sweet.quantity < quantity) {
+    throw new Error(`Only ${sweet.quantity} ${sweet.name} available in stock`);
+  }
+
+  sweet.quantity -= quantity;
+  return sweet;
+}
+
+
 module.exports = {
   addSweet,
   deleteSweet,
   getAllSweets,
   updateSweet,
-  searchSweets
+  searchSweets,
+  purchaseSweet
 };
 
 
