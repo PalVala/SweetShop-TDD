@@ -1,5 +1,5 @@
 const { Sweet, sweets } = require('../model/sweet');
-const { addSweet,deleteSweet,getAllSweets,updateSweet,searchSweets ,purchaseSweet} = require('../controller/sweetshop');
+const { addSweet,deleteSweet,getAllSweets,updateSweet,searchSweets ,purchaseSweet,restockSweet} = require('../controller/sweetshop');
 
 beforeEach(() => sweets.length = 0); 
 
@@ -99,7 +99,7 @@ test('searchSweets() should return sweets in price range', () => {
 
 
 
-
+// purchasing sweet & reduce the stock
 test('purchaseSweet() should reduce quantity of sweet', () => {
   addSweet({ id: 10, name: 'Barfi', category: 'Milk-Based', price: 40, quantity: 10 });
   const updated = purchaseSweet(10, 3);
@@ -115,4 +115,24 @@ test('purchaseSweet() should throw error if insufficient stock', () => {
   addSweet({ id: 11, name: 'Halwa', category: 'Hot', price: 25, quantity: 2 });
 
   expect(() => purchaseSweet(11, 5)).toThrow('Only 2 Halwa available in stock');
+});
+
+
+
+
+test('restockSweet() should increase quantity of a sweet', () => {
+  addSweet({ id: 20, name: 'Modak', category: 'Traditional', price: 35, quantity: 5 });
+  const updated = restockSweet(20, 10);
+
+  expect(updated.quantity).toBe(15);
+});
+
+test('restockSweet() should throw error if sweet not found', () => {
+  expect(() => restockSweet(999, 5)).toThrow('Sweet with ID 999 not found');
+});
+
+test('restockSweet() should throw error for invalid quantity', () => {
+  addSweet({ id: 21, name: 'Gulab Jamun', category: 'Syrup-Based', price: 30, quantity: 5 });
+
+  expect(() => restockSweet(21, 0)).toThrow('Restock quantity must be greater than 0');
 });
