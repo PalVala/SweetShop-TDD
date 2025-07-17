@@ -32,7 +32,7 @@ This project allows you to manage sweet inventory with features like adding, del
 ```bash
 git clone https://github.com/PalVala/SweetShop-TDD
 cd SweetShop
-
+```
 
 2. **Install Dependencies**
 ```bash
