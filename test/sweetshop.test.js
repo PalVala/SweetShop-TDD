@@ -1,5 +1,5 @@
 const { Sweet, sweets } = require('../model/sweet');
-const { addSweet,deleteSweet,getAllSweets } = require('../controller/sweetshop');
+const { addSweet,deleteSweet,getAllSweets,updateSweet } = require('../controller/sweetshop');
 
 beforeEach(() => sweets.length = 0); 
 
@@ -52,4 +52,24 @@ test('getAllSweets() should return all sweets', () => {
 
   expect(result.length).toBe(2);
   expect(result).toEqual(expect.arrayContaining([expect.objectContaining(sweet1), expect.objectContaining(sweet2)]));
+});
+
+
+// update sweet
+
+test('updateSweet() should update sweet properties correctly', () => {
+  const sweetData = { id: 1, name: 'Barfi', category: 'Milk-Based', price: 40, quantity: 30 };
+  addSweet(sweetData);
+
+  const updatedData = { name: 'Kesar Barfi', price: 45 };
+  const updatedSweet = updateSweet(1, updatedData);
+
+  expect(updatedSweet.name).toBe('Kesar Barfi');
+  expect(updatedSweet.price).toBe(45);
+  expect(updatedSweet.category).toBe('Milk-Based'); // Unchanged
+  expect(updatedSweet.quantity).toBe(30);           // Unchanged
+});
+
+test('updateSweet() should throw error for non-existent sweet', () => {
+  expect(() => updateSweet(99, { name: 'Invalid' })).toThrow('Sweet with ID 99 not found');
 });
