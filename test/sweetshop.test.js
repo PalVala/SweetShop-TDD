@@ -73,3 +73,27 @@ test('updateSweet() should update sweet properties correctly', () => {
 test('updateSweet() should throw error for non-existent sweet', () => {
   expect(() => updateSweet(99, { name: 'Invalid' })).toThrow('Sweet with ID 99 not found');
 });
+
+// searching sweet by name, catagory or price range
+
+const { searchSweets } = require('../controller/sweetshop');
+
+test('searchSweets() should return sweets matching name', () => {
+  addSweet({ id: 1, name: 'Ladoo', category: 'Round', price: 30, quantity: 10 });
+  addSweet({ id: 2, name: 'Motichoor Ladoo', category: 'Round', price: 35, quantity: 15 });
+
+  const result = searchSweets({ name: 'ladoo' });
+  expect(result.length).toBe(2);
+});
+
+test('searchSweets() should return sweets matching category', () => {
+  addSweet({ id: 3, name: 'Rasgulla', category: 'Syrupy', price: 25, quantity: 10 });
+  const result = searchSweets({ category: 'syrupy' });
+  expect(result.length).toBe(1);
+  expect(result[0].name).toBe('Rasgulla');
+});
+
+test('searchSweets() should return sweets in price range', () => {
+  const result = searchSweets({ minPrice: 30, maxPrice: 35 });
+  expect(result.every(s => s.price >= 30 && s.price <= 35)).toBe(true);
+});
