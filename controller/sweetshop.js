@@ -7,4 +7,18 @@ function addSweet(sweetData) {
   return sweet;
 }
 
-module.exports = { addSweet };
+function deleteSweet(id) {
+  const index = sweets.findIndex(s => s.id === id);
+
+  if (index !== -1) {
+    sweets.splice(index, 1);
+    return true; // Deletion successful
+  } else {
+    throw new Error(`Sweet with ID ${id} not found`);
+  }
+}
+
+module.exports = { addSweet, deleteSweet };
+
+
+
