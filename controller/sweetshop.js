@@ -12,13 +12,24 @@ function deleteSweet(id) {
 
   if (index !== -1) {
     sweets.splice(index, 1);
-    return true; // Deletion successful
+    return true; 
   } else {
     throw new Error(`Sweet with ID ${id} not found`);
   }
 }
 
-module.exports = { addSweet, deleteSweet };
+function getAllSweets() {
+  return sweets;
+}
+
+module.exports = {
+  addSweet,
+  deleteSweet,
+  getAllSweets
+};
+
+
+
 
 
 
