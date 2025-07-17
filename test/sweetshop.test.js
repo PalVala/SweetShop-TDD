@@ -1,5 +1,5 @@
 const { Sweet, sweets } = require('../model/sweet');
-const { addSweet,deleteSweet } = require('../controller/sweetshop');
+const { addSweet,deleteSweet,getAllSweets } = require('../controller/sweetshop');
 
 beforeEach(() => sweets.length = 0); 
 
@@ -36,4 +36,20 @@ test('deleteSweet() should remove sweet by ID', () => {
 // Delete non-existent sweet
 test('deleteSweet() should throw error if ID not found', () => {
   expect(() => deleteSweet(99)).toThrow('Sweet with ID 99 not found');
+});
+
+
+// get all exist sweets
+
+test('getAllSweets() should return all sweets', () => {
+  const sweet1 = { id: 1, name: 'Jalebi', category: 'Fried', price: 20, quantity: 50 };
+  const sweet2 = { id: 2, name: 'Rasgulla', category: 'Syrup-Based', price: 35, quantity: 40 };
+
+  addSweet(sweet1);
+  addSweet(sweet2);
+
+  const result = getAllSweets();
+
+  expect(result.length).toBe(2);
+  expect(result).toEqual(expect.arrayContaining([expect.objectContaining(sweet1), expect.objectContaining(sweet2)]));
 });
